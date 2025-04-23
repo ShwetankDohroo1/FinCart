@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+//role of user
+enum Role {
+  ADMIN
+  CUSTOMER
+  RETAILER
+}
+//user himself
+model User {
+  id       Int    @id @default(autoincrement())
+  name     String
+  email    String @unique
+  password String
+  role     Role   @default(CUSTOMER)
+  items    Item[] @relation("OwnerItems")
+  cart     Cart?
+  createdAt DateTime @default(now())
+}
+//items added on platform
+model Item {
+  id          Int        @id @default(autoincrement())
+  name        String
+  description String?
+  price       Float
+  owner       User       @relation("OwnerItems", fields: [ownerId], references: [id])
+  ownerId     Int
+  CartItem    CartItem[]
+}
+//managing cart for diff users
+model Cart {
+  id     Int        @id @default(autoincrement())
+  user   User       @relation(fields: [userId], references: [id])
+  userId Int        @unique
+  items  CartItem[]
+}
+//items in the cart
+model CartItem {
+  id       Int  @id @default(autoincrement())
+  cart     Cart @relation(fields: [cartId], references: [id])
+  cartId   Int
+  item     Item @relation(fields: [itemId], references: [id])
+  itemId   Int
+  quantity Int  @default(1)
+}
