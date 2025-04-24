@@ -3,11 +3,16 @@ import { ItemsService } from "./items.service";
 import { AddItemDto, UpdateItemDto } from "./dto";
 import { RequestWithUser } from "src/common/interfaces/request-with-user.interface";
 import { JwtAuthGuard } from "src/jwt/jwt.guard";
+import { Roles } from "src/common/decorator/role.decorator";
+import { RolesGuard } from "src/common/guards/roles.guard";
+
+
 @Controller('items')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class ItemController {
     constructor(private readonly itemService: ItemsService) { }
     @Post()
+    @Roles('ADMIN', 'RETAILER')
     create(@Body() dto: AddItemDto, @Req() req: RequestWithUser) {
         return this.itemService.create(req.user['sub'], dto);
     }
@@ -17,11 +22,13 @@ export class ItemController {
     }
 
     @Patch(':id')
+    @Roles('ADMIN', 'RETAILER')
     update(@Param('id') id: string, @Body() dto: UpdateItemDto, @Req() req: RequestWithUser) {
         return this.itemService.update(+id, req.user['sub'], dto);
     }
 
     @Delete(':id')
+    @Roles('ADMIN', 'RETAILER')
     remove(@Param('id') id: string, @Req() req: RequestWithUser) {
         return this.itemService.remove(+id, req.user['sub']);
     }
