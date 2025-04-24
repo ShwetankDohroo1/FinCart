@@ -49,10 +49,10 @@ export class AuthService {
     }
 
     //below function is assinging jwt token to user.
-    private signToken(userId: number, name: string, email: string, role: string) {
+    private async signToken(userId: number, name: string, email: string, role: string) {
         const payload = { sub: userId, name, email, role };
         return {
-            access_token: this.jwtService.sign(payload),
+            access_token: this.jwtService.signAsync(payload),
             payload,
         };
     }
