@@ -49,4 +49,5 @@ model CartItem {
   item     Item @relation(fields: [itemId], references: [id])
   itemId   Int
   quantity Int  @default(1)
+  @@unique([cartId, itemId])
 }

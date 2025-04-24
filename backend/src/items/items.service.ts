@@ -2,38 +2,49 @@ import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma.service";
 import { AddItemDto, UpdateItemDto } from "./dto";
 @Injectable()
-export class ItemsService{
-    constructor(private prisma: PrismaService){}
-    create(userId: number, dto:AddItemDto){
+export class ItemsService {
+    constructor(private prisma: PrismaService) { }
+    create(userId: number, dto: AddItemDto) {
         return this.prisma.item.create({
-            data:{
+            data: {
                 ...dto,
                 ownerId: userId,
             }
         })
     }
-    findAll(query?: string, filter?: string){
+    findAll(query?: string, filter?: string) {
         return this.prisma.item.findMany({
-            where:{
+            where: {
                 name: {
                     contains: query,
                     mode: 'insensitive'
                 }
             },
+            select: {
+                id: true,
+                name: true,
+                description: true,
+                price: true,
+                owner: {
+                    select: {
+                        name: true,
+                    },
+                },
+            },
         });
     }
-    update(id: number, userId: number, dto: UpdateItemDto){
+    update(id: number, userId: number, dto: UpdateItemDto) {
         return this.prisma.item.updateMany({
-            where:{
-                id, 
+            where: {
+                id,
                 ownerId: userId
             },
             data: dto,
         })
     }
-    remove(id: number, userId: number){
+    remove(id: number, userId: number) {
         return this.prisma.item.deleteMany({
-            where:{
+            where: {
                 id,
                 ownerId: userId
             }
