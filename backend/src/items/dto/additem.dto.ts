@@ -1,4 +1,4 @@
-import { IsString, IsNumber } from "class-validator";
+import { IsString, IsNumber, IsNotEmpty } from "class-validator";
 
 export class AddItemDto{
     @IsString()
@@ -9,4 +9,8 @@ export class AddItemDto{
 
     @IsNumber()
     price: number;
+
+    @IsNotEmpty()
+    @IsString()
+    image: string;
 }

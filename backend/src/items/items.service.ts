@@ -33,6 +33,24 @@ export class ItemsService {
             },
         });
     }
+    findMyItems(userId: number) {
+        return this.prisma.item.findMany({
+            where: {
+                ownerId: userId,
+            },
+            select: {
+                id: true,
+                name: true,
+                description: true,
+                price: true,
+                owner: {
+                    select: {
+                        name: true,
+                    },
+                },
+            },
+        });
+    }
     update(id: number, userId: number, dto: UpdateItemDto) {
         return this.prisma.item.updateMany({
             where: {

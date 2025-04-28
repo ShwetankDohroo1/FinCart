@@ -6,48 +6,49 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-//role of user
+
 enum Role {
   ADMIN
   CUSTOMER
   RETAILER
 }
-//user himself
+
 model User {
-  id       Int    @id @default(autoincrement())
-  name     String
-  email    String @unique
-  password String
-  role     Role   @default(CUSTOMER)
-  //items array added.
-  items    Item[] @relation("OwnerItems")
-  cart     Cart?
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(CUSTOMER)
+  items     Item[]   @relation("OwnerItems")
+  cart      Cart?
   createdAt DateTime @default(now())
 }
-//items added on platform
+
 model Item {
   id          Int        @id @default(autoincrement())
   name        String
   description String?
   price       Float
-  owner       User       @relation("OwnerItems", fields: [ownerId], references: [id])
+  image       String
+  owner       User       @relation("OwnerItems", fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId     Int
   CartItem    CartItem[]
 }
-//managing cart for diff users
+
 model Cart {
   id     Int        @id @default(autoincrement())
-  user   User       @relation(fields: [userId], references: [id])
+  user   User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int        @unique
   items  CartItem[]
 }
-//items in the cart
+
 model CartItem {
   id       Int  @id @default(autoincrement())
-  cart     Cart @relation(fields: [cartId], references: [id])
+  cart     Cart @relation(fields: [cartId], references: [id], onDelete: Cascade)
   cartId   Int
-  item     Item @relation(fields: [itemId], references: [id])
+  item     Item @relation(fields: [itemId], references: [id], onDelete: Cascade)
   itemId   Int
   quantity Int  @default(1)
+
   @@unique([cartId, itemId])
 }
