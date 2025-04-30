@@ -51,11 +51,13 @@ export default function SignupPage() {
             }
             setUser(userData);
             toast.success('Account created!', { id: toastId });
-            router.push('/items');
-        } catch (e: any) {
+            router.push('/auth/signin');
+        } 
+        catch (e: any) {
             console.error(e);
             toast.error(e.response?.data?.message || 'Signup failed', { id: toastId });
-        } finally {
+        } 
+        finally {
             setLoading(false);
         }
     };

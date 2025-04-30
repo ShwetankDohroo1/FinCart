@@ -41,13 +41,32 @@ export default function SigninPage() {
             const { access_token } = res.data;
             Cookies.set('token', access_token, { expires: 7 });
             const userData = decodeToken(access_token);
-            userData && setUser(userData);
+
+            if (!userData) {
+                toast.error('Invalid user data', { id: toastId });
+                setLoading(false);
+                return;
+            }
+            setUser(userData);
             toast.success('Welcome back!', { id: toastId });
-            router.push('/items');
-        } 
+            switch (userData.role) {
+                case 'CUSTOMER':
+                    router.push('/items');
+                    break;
+                case 'RETAILER':
+                    router.push('/retailer/items/manage');
+                    break;
+                case 'ADMIN':
+                    router.push('/admin/dashboard');
+                    break;
+                default:
+                    router.push('/');
+                    break;
+            }
+        }
         catch (e: any) {
             toast.error(e.response?.data?.message || 'Signin failed', { id: toastId });
-        } 
+        }
         finally {
             setLoading(false);
         }

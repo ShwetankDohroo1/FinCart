@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { ItemController } from './items.controller';
+import { ItemsController } from './items.controller';
 import { ItemsService } from './items.service';
-
+import { CloudinaryConfigModule } from 'src/cloudinary/cloudinary.module';
 @Module({
-    controllers:[ItemController],
+    imports:[CloudinaryConfigModule],
+    controllers:[ItemsController],
     providers:[ItemsService],
     exports:[ItemsService]
 })

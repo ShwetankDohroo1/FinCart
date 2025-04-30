@@ -4,12 +4,13 @@ import { AddItemDto, UpdateItemDto } from "./dto";
 @Injectable()
 export class ItemsService {
     constructor(private prisma: PrismaService) { }
-    create(userId: number, dto: AddItemDto) {
+    create(userId: number, dto: AddItemDto, imageUrl: string) {
         return this.prisma.item.create({
             data: {
                 ...dto,
+                image: imageUrl,
                 ownerId: userId,
-            }
+            },
         })
     }
     findAll(query?: string, filter?: string) {
@@ -25,6 +26,7 @@ export class ItemsService {
                 name: true,
                 description: true,
                 price: true,
+                image: true,
                 owner: {
                     select: {
                         name: true,
@@ -43,6 +45,7 @@ export class ItemsService {
                 name: true,
                 description: true,
                 price: true,
+                image: true,
                 owner: {
                     select: {
                         name: true,
