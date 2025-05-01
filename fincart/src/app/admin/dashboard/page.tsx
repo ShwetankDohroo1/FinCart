@@ -69,11 +69,11 @@ export default function AdminDashboard() {
 
     return (
         <div className="p-6 bg-gray-100 min-h-screen">
-            <h1 className="text-3xl font-bold mb-6 text-center">Admin Dashboard</h1>
+            <h1 className="text-3xl font-bold mb-6 text-center">Welcome to Admin Dashboard.</h1>
 
             <div className="grid gap-10 lg:grid-cols-3">
                 <div>
-                    <h2 className="text-xl font-semibold mb-2">Customers</h2>
+                    <h2 className="text-xl font-semibold mb-2">Customers.</h2>
                     {customers.length === 0 ? (
                         <p>No customers found.</p>
                     ) : (
@@ -83,13 +83,13 @@ export default function AdminDashboard() {
                                     <p className="font-medium">{user.name}</p>
                                     <p className="text-sm text-gray-600">{user.email}</p>
                                 </div>
-                                <button onClick={() => handleDeleteUser(user.id)} className="text-red-500">Delete</button>
+                                <button onClick={() => handleDeleteUser(user.id)} className="text-red-500">Delete!</button>
                             </div>
                         ))
                     )}
                 </div>
                 <div>
-                    <h2 className="text-xl font-semibold mb-2">Retailers</h2>
+                    <h2 className="text-xl font-semibold mb-2">Retailers.</h2>
                     {retailers.length === 0 ? (
                         <p>No retailers found.</p>
                     ) : (
@@ -99,13 +99,13 @@ export default function AdminDashboard() {
                                     <p className="font-medium">{user.name}</p>
                                     <p className="text-sm text-gray-600">{user.email}</p>
                                 </div>
-                                <button onClick={() => handleDeleteUser(user.id)} className="text-red-500">Delete</button>
+                                <button onClick={() => handleDeleteUser(user.id)} className="text-red-500">Delete!</button>
                             </div>
                         ))
                     )}
                 </div>
                 <div>
-                    <h2 className="text-xl font-semibold mb-2">All Items</h2>
+                    <h2 className="text-xl font-semibold mb-2">All Items:-</h2>
                     {items.length === 0 ? (
                         <p>No items found.</p>
                     ) : (

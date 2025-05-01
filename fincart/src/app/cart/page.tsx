@@ -42,7 +42,6 @@ function CartPage() {
         fetchCart();
     }, []);
     const addItem = async (itemId: number) => {
-        // Optimistically update the cart
         setItems((prevItems) =>
             prevItems.map((item) =>
                 item.id === itemId
@@ -53,14 +52,14 @@ function CartPage() {
 
         try {
             await api.post(`/cart/add/${itemId}`);
-            fetchCart(); // Re-fetch cart after the successful action
-        } catch {
+            fetchCart();
+        } 
+        catch {
             toast.error('Failed to add item.');
-            fetchCart(); // Re-fetch to reset any changes in case of failure
+            fetchCart();
         }
     };
     const removeItem = async (itemId: number) => {
-        // Optimistically update the cart
         setItems((prevItems) =>
             prevItems.map((item) =>
                 item.id === itemId && item.quantity > 1
@@ -72,10 +71,11 @@ function CartPage() {
         try {
             await api.delete(`/cart/remove/${itemId}`);
             toast.success('Item removed.');
-            fetchCart(); // Re-fetch after the action
-        } catch {
+            fetchCart();
+        } 
+        catch {
             toast.error('Failed to remove item.');
-            fetchCart(); // Re-fetch to reset any changes in case of failure
+            fetchCart();
         }
     };
     const total = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
@@ -114,7 +114,7 @@ function CartPage() {
                         ))}
                     </div>
 
-                    <div className="bg-white p-4 rounded shadow text-right">
+                    <div className="bg-white p-5 rounded shadow text-right">
                         <p className="text-lg font-semibold">Total: ₹{total}</p>
                     </div>
                 </>
