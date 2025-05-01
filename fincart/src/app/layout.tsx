@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { UserProvider } from "@/context/userContext";
-import { Toaster } from "react-hot-toast"; // add this
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,7 +17,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="antialiased">
         <UserProvider>
-          <Toaster position="top-center" reverseOrder={false} /> {}
+          <Toaster position="top-center" reverseOrder={false} /> { }
           {children}
         </UserProvider>
       </body>
