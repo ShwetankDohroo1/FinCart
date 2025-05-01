@@ -14,7 +14,7 @@ export function withAuth<P extends object>(
 
         useEffect(() => {
             if (!user) {
-                router.replace('/auth/login');
+                router.replace('/auth/signin');
             } else if (!allowedRoles.includes(user.role)) {
                 router.replace('/');
             }
